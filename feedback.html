@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback </title>
+    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        #thankYouMessage {
+            display: none;
+            font-size: 1.5em;
+            color: green;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="location.html">Location</a>
+        <a href="menu.html">Menu</a>
+        <a href="feedback.html">Feedback</a>
+        
+    </nav>
+    <div class="form-wrapper">
+        <h2>Submit Your Feedback</h2>
+    <form id="feedbackForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        
+        <label for="feedback">Feedback:</label>
+        <textarea id="feedback" name="feedback" required></textarea>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="thankYouMessage">Thank you for your feedback! 😊</div>
+
+    <h2>Previous Feedback</h2>
+    <div id="feedbackContainer"></div>
+    </div>
+    
+    <script>
+        
+        document.getElementById("feedbackForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            let formData = new FormData(this);
+
+            fetch("submit_feedback.php", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("thankYouMessage").style.display = "block"; // Show thank-you message
+                setTimeout(() => {
+                    document.getElementById("thankYouMessage").style.display = "none"; // Hide after 3 sec
+                }, 3000);
+
+                this.reset(); 
+                loadFeedback(); 
+            })
+            .catch(error => console.error("Error:", error));
+        });
+
+        
+        function loadFeedback() {
+            fetch("fetch_feedback.php")
+            .then(response => response.json())
+            .then(data => {
+                let feedbackContainer = document.getElementById("feedbackContainer");
+                feedbackContainer.innerHTML = "";
+                data.forEach(feedback => {
+                    feedbackContainer.innerHTML += `<p><strong>${feedback.name}:</strong> ${feedback.message}</p>`;
+                });
+            })
+            .catch(error => console.error("Error:", error));
+        }
+
+        
+        window.onload = loadFeedback;
+    </script>
+    
+    
+</body>
+</html>

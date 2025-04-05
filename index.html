@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aaran Bistro Cafe</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+ 
+<style>
+   body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+
+.slideshow-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.slide.active {
+    opacity: 1;
+}
+
+
+.content {
+    position: absolute;
+    top: 30%;
+    left: 90%;
+    transform: translate(-50%, -50%);
+    text-align: left;
+    color: white;
+    padding: 60px;
+    border-radius: 10px;
+    z-index: 10;
+}
+
+h1 {
+    font-size: 2.4em;
+    margin-bottom: 20px;
+}
+
+
+.order-btn {
+    background: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 3.4em;
+    cursor: pointer;
+    border-radius: 40px;
+}
+
+nav {
+    position: absolute;
+    top: 10%;
+    right: 5%;
+    text-align: right;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    display: block;
+    align-items: right;
+    justify-content: flex-end;
+    margin: 15px 0;
+}
+
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    display: flex;
+    align-items: right;
+    gap: 10px;
+    transition: color 0.3s;
+}
+
+
+nav ul li a:hover {
+    color: #ffcc00;
+}
+
+nav ul li::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+nav ul li a i {
+    font-size: 25px;
+    color: white;
+    
+}
+
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+}
+
+
+.about-content {
+    background: black;
+    color: white;
+    padding: 20px;
+    width: 50%;
+    max-width: 600px;
+    text-align: center;
+    border-radius: 10px;
+    position: relative;
+}
+
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+form {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: 500;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    resize: vertical;
+}
+
+button[type="submit"] {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #8B4513;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button[type="submit"]:hover {
+    background-color: #A0522D;
+}
+
+
+#thankYouMessage {
+    font-size: 1.2em;
+    color: green;
+    margin: 10px 0;
+}
+
+
+#feedbackContainer {
+    background-color: #fff0e6;
+    padding: 15px;
+    border-radius: 5px;
+    max-width: 600px;
+    margin-bottom: 50px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+#feedbackContainer p {
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 5px;
+}
+.start-order-btn {
+    background: red;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 51px;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    right: 40%;
+    transform: translateY(-50%);
+    transition: background 0.3s;
+}
+
+.start-order-btn:hover {
+    background: darkred;
+}
+
+.footer {
+    background: yellow;
+    color: #1a1a1a;
+    padding: 20px;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 10px 20px;
+}
+
+
+.footer-left {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-left h3,
+.footer-left p {
+    margin: 5px 0;
+}
+
+
+.social-icons {
+    margin-top: 10px;
+}
+
+.social-icons a {
+    font-size: 20px;
+    margin-right: 15px;
+    color: #1a1a1a;
+}
+
+.social-icons a:hover {
+    color: black;
+}
+
+
+.footer-right {
+    width: 30%;
+}
+
+.footer-right ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-right ul li {
+    margin: 5px 0;
+}
+
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+    border-top: 1px solid #444;
+    padding-top: 10px;
+}
+
+.footer-bottom a {
+    margin: 0 10px;
+    color: #1a1a1a;
+    text-decoration: none;
+}
+
+.footer-bottom a:hover {
+    text-decoration: underline;
+}
+.footer {
+    background: yellow;
+    color: #1a1a1a;
+    padding: 20px;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 10px 20px;
+}
+
+
+.footer-left {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-left h3,
+.footer-left p {
+    margin: 5px 0;
+}
+
+
+.social-icons {
+    margin-top: 10px;
+}
+
+.social-icons a {
+    font-size: 20px;
+    margin-right: 15px;
+    color: #1a1a1a;
+}
+
+.social-icons a:hover {
+    color: black;
+}
+
+
+.footer-right {
+    width: 30%;
+}
+
+.footer-right ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-right ul li {
+    margin: 5px 0;
+}
+
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+    border-top: 1px solid #444;
+    padding-top: 10px;
+}
+
+.footer-bottom a {
+    margin: 0 10px;
+    color: #1a1a1a;
+    text-decoration: none;
+}
+
+.footer-bottom a:hover {
+    text-decoration: underline;
+}
+
+    </style>
+</head>
+<body>
+    <div class="slideshow-container">
+        <div class="slide active" style="background-image: url('images/image1.jpeg');"></div>
+        <div class="slide" style="background-image: url('images/image2.jpeg');"></div>
+        <div class="slide" style="background-image: url('images/image3.jpeg');"></div>
+        <div class="slide" style="background-image: url('images/image4.jpeg');"></div>
+        <div class="slide" style="background-image: url('images/image5.jpeg');"></div>
+        <div class="slide" style="background-image: url('images/image6.jpeg');"></div>
+        
+        <div class="content">
+        
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-utensils"></i>Home</a></li>
+                    <li><a href="location.html"><i class="fas fa-map-marker-alt"></i>Location</a></li>
+                    <li><a href="menu.html"><i class="fas fa-briefcase"></i>Menu</a></li>
+                    <li><a href="#" onclick="openFeedback()"><i class="fas fa-comments"></i> Feedback</a></li>
+                    <li><a href="#" onclick="openAbout()"><i class="fas fa-info-circle"></i> About</a></li>
+                </ul>
+            </nav>
+        </div>
+        <button class="start-order-btn" onclick="window.location.href='menu.html'">ORDER HERE</button>
+    </div>
+    
+    <div id="about-overlay" class="overlay">
+        <div class="about-content">
+            <span class="close-btn" onclick="closeAbout()">&times;</span>
+            <h2>About Us</h2>
+            <p>Welcome to Aaran Bistro Cafe! We take pride in serving delicious meals in a warm and inviting atmosphere.</p>
+            <p>Welcome to CJ’s, a fully fledged restaurant specializing in delivering a relaxed and memorable dining experience. We’re currently located at Shujaa Mall Kilimani.</p>
+            <p>Each location features a unique ambience with tasteful décor, specially designed for your comfort. To make you feel more at home, we’ve carefully selected a unique theme for each location.</p>
+            <p>We have over 300 carefully selected, mouthwatering menu items. Whatever your taste, it's well catered for. We value you. That’s why you’ll always be served with excellence by each member of our highly skilled team.</p>
+            <p>Our experienced wait staff greet you at the door and lead you to the table of your choice in the well-thought-out seating arrangement. The rich aroma of freshly ground coffee is the handy work of our skilled baristas, adept in latte art. This ensures you get a freshly prepared cup of coffee as the beans are roasted on site.</p>
+            <h3>MINIMUM DELIVERY FEE</h3>
+            <p>KSH 100</p>
+        </div>
+    </div>
+    
+<div id="feedback-overlay" class="overlay">
+    <div class="feedback-content">
+      <span class="close-btn" onclick="closeFeedback()">&times;</span>
+      
+      <div class="form-wrapper">
+        <h2>Submit Your Feedback</h2>
+        <form id="feedbackForm">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required>
+  
+          <label for="feedback">Feedback:</label>
+          <textarea id="feedback" name="feedback" required></textarea>
+  
+          <button type="submit">Submit</button>
+        </form>
+  
+        <div id="thankYouMessage" style="display:none;">Thank you for your feedback! 😊</div>
+  
+        <h2>Previous Feedback</h2>
+        <div id="feedbackContainer"></div>
+      </div>
+    </div>
+  </div>
+  
+    <script>
+    function openFeedback() {
+    document.getElementById("feedback-overlay").style.display = "flex";
+  }
+
+  function closeFeedback() {
+    document.getElementById("feedback-overlay").style.display = "none";
+  }
+
+    function openAbout() {
+        document.getElementById("about-overlay").style.display = "flex";
+    }
+
+    function closeAbout() {
+        document.getElementById("about-overlay").style.display = "none";
+    }
+        let index = 0;
+        function showSlides() {
+            let slides = document.querySelectorAll(".slide");
+            slides.forEach(slide => slide.classList.remove("active")); 
+            slides[index].classList.add("active"); 
+            index = (index + 1) % slides.length; 
+        }
+
+        
+        showSlides();
+
+        setInterval(showSlides, 3000);
+    </script>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                </div>
+                <h3>CONTACT US</h3>
+                <p>+2547 10 475 899</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>LOCATIONS</h3>
+                <p>Shujaa Mall</p>
+                <p>Kilimani</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>OUR MENU</h3>
+                <ul>
+                    <li>Breakfast</li>
+                    <li>Drinks</li>
+                    <li>Lunch</li>
+                    <li>Dinner</li>
+                    <li>Desserts</li>
+                </ul>
+            </div>
+            
+            <div class="footer-section footer-info">
+                <p>We ensure to deliver on time and offer high-quality services.</p>
+            </div>
+            
+            <div class="footer-bottom">
+                <a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a> | <a href="#">Contact Us</a>
+                <p>&copy; 2025 Aaran Bistro Cafe. All Rights Reserved.</p>
+            
+            </div>
+        </div>
+    </footer>
+    
+</body>
+</html>
